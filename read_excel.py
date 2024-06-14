@@ -15,6 +15,8 @@ def get_all_products():
 
     data_dict = {
         'Products': [],
+        'Category': [],
+        'Date': [],
         'Time of subscription': [],
         'Price in shop': [],
         'Price of bought': [],
@@ -24,10 +26,12 @@ def get_all_products():
     # Loop through all rows starting from row 2
     for i in range(2, max_row + 1):
         data_dict['Products'].append(sheet_obj.cell(row=i, column=1).value)
-        data_dict['Time of subscription'].append(sheet_obj.cell(row=i, column=2).value)
-        data_dict['Price in shop'].append(sheet_obj.cell(row=i, column=3).value)
-        data_dict['Price of bought'].append(sheet_obj.cell(row=i, column=4).value)
-        data_dict['Profit'].append(sheet_obj.cell(row=i, column=5).value)
+        data_dict['Category'].append(sheet_obj.cell(row=i, column=2).value)
+        data_dict['Date'].append(sheet_obj.cell(row=i, column=3).value)
+        data_dict['Time of subscription'].append(sheet_obj.cell(row=i, column=4).value)
+        data_dict['Price in shop'].append(sheet_obj.cell(row=i, column=5).value)
+        data_dict['Price of bought'].append(sheet_obj.cell(row=i, column=6).value)
+        data_dict['Profit'].append(sheet_obj.cell(row=i, column=7).value)
 
     return data_dict
 

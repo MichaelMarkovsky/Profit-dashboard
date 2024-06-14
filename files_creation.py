@@ -27,10 +27,12 @@ def create_excel():
 
     # Write data to the worksheet
     worksheet['A1'] = 'Products'
-    worksheet['B1'] = 'Time of subscription'
-    worksheet['C1'] = 'Price in shop'
-    worksheet['D1'] = 'Price of bought'
-    worksheet['E1'] = 'Profit'
+    worksheet['B1'] = 'Category'
+    worksheet['C1'] = 'Date'
+    worksheet['D1'] = 'Time of subscription'
+    worksheet['E1'] = 'Price in shop'
+    worksheet['F1'] = 'Price of bought'
+    worksheet['G1'] = 'Profit'
 
     # Define fill color (example: solid fill with color yellow)
     fill = PatternFill(start_color="000000", end_color="000000", fill_type="solid")
@@ -39,7 +41,7 @@ def create_excel():
     white_font = Font(color="FFFFFF")
 
     # Apply the fill to the header cells
-    cell_ids = ['A1', 'B1', 'C1', 'D1', 'E1']
+    cell_ids = ['A1', 'B1', 'C1', 'D1', 'E1', 'F1', 'G1']
     for cell_id in cell_ids:
         worksheet[cell_id].fill = fill
         worksheet[cell_id].font = white_font
@@ -72,10 +74,10 @@ def create_database():
         conn = sqlite3.connect(db_name)
         print(f"Database '{db_name}' created successfully.")
         
-        #create table
-        conn.execute(create_table())
-        # Commit the changes
-        conn.commit()
+        # #create table
+        # conn.execute(create_table())
+        # # Commit the changes
+        # conn.commit()
 
         # Close the connection
         conn.close()
