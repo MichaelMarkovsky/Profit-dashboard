@@ -9,6 +9,9 @@ from tkinter import ttk#sub module to use themed widgests
 from tkinter.scrolledtext import ScrolledText
 from tkinter import messagebox 
 
+from tkcalendar import Calendar, DateEntry
+
+
 import sv_ttk
 import threading
 from threading import Event
@@ -18,7 +21,7 @@ from threading import Event
 #create excel file:
 import files_creation
 #read the excel file:
-import read_excel
+import read_write_excel
 
 #IMPORT FOR DATABASE
 import sqlite3
@@ -30,6 +33,7 @@ class App(tkinter.Tk):
         #setup
         #self.create_download_folder_if_not_exists()
         sv_ttk.use_dark_theme()
+     
         self.title("Dashboard")
         #self.resizable(0,0)#Don't allow the screen to be resized
         #self.iconbitmap("Icon.ico")#replace the defult icon with a Transparent Icon
@@ -80,7 +84,7 @@ class Widgets (ttk.Frame):
         self.a2 = tk.StringVar(self)
 
 
-        self.combo1 = ttk.Combobox(interface_frame_section_1, text="Name of Product", state="readonly", values=self.combo_list , textvariable=self.a1)
+        self.combo1 = ttk.Combobox(interface_frame_section_1, text="Name of Product",state="readonly", values=self.combo_list , textvariable=self.a1)
         self.combo1.grid(row=1,column=1,padx=10,pady=7, sticky="ew")
         self.combo1.bind('<<ComboboxSelected>>', self.combo_selected)
 
@@ -96,47 +100,56 @@ class Widgets (ttk.Frame):
                 self.name_label.grid(row=0,column=0,padx=10,pady=7, sticky="ew")
                 self.name_label = ttk.Label(interface_frame_section_1, text = 'Type:', font=('calibre',9))
                 self.name_label.grid(row=1,column=0,padx=10,pady=7, sticky="ew")
-                self.name_label = ttk.Label(interface_frame_section_1, text = 'Time of subscription:', font=('calibre',9))
+                self.name_label = ttk.Label(interface_frame_section_1, text = 'Date:', font=('calibre',9))
                 self.name_label.grid(row=2,column=0,padx=10,pady=7, sticky="ew")
-                self.name_label = ttk.Label(interface_frame_section_1, text = 'Price in shop:', font=('calibre',9))
+                self.name_label = ttk.Label(interface_frame_section_1, text = 'Time of subscription:', font=('calibre',9))
                 self.name_label.grid(row=3,column=0,padx=10,pady=7, sticky="ew")
-                self.name_label = ttk.Label(interface_frame_section_1, text = 'Price of bought:', font=('calibre',9))
+                self.name_label = ttk.Label(interface_frame_section_1, text = 'Price in shop:', font=('calibre',9))
                 self.name_label.grid(row=4,column=0,padx=10,pady=7, sticky="ew")
-                self.name_label = ttk.Label(interface_frame_section_1, text = 'Profit:', font=('calibre',9))
+                self.name_label = ttk.Label(interface_frame_section_1, text = 'Price of bought:', font=('calibre',9))
                 self.name_label.grid(row=5,column=0,padx=10,pady=7, sticky="ew")
-                self.name_label = ttk.Label(interface_frame_section_1, text = 'Times:', font=('calibre',9))
+                self.name_label = ttk.Label(interface_frame_section_1, text = 'Profit:', font=('calibre',9))
                 self.name_label.grid(row=6,column=0,padx=10,pady=7, sticky="ew")
+                self.name_label = ttk.Label(interface_frame_section_1, text = 'Times:', font=('calibre',9))
+                self.name_label.grid(row=7,column=0,padx=10,pady=7, sticky="ew")
+
+                self.total_profit_label = ttk.Label(self, text = 'Total Profit:', font=('calibre',13),foreground="green")
+                self.total_profit_label.grid(row=0,column=2,padx=10,pady=7, sticky="ew")
+                
+                
                 
 
             labels()
 
             def Entries():
+                self.entry_widget_date = DateEntry(interface_frame_section_1,date_pattern='dd/mm/y',state='readonly')
+                self.entry_widget_date.grid(row=2,column=1,padx=10,pady=7, sticky="ew")
                 self.entry_widget_ts = ttk.Entry(interface_frame_section_1, width=20, font=('Arial', 9))
-                self.entry_widget_ts.grid(row=2,column=1,padx=10,pady=7, sticky="ew")
+                self.entry_widget_ts.grid(row=3,column=1,padx=10,pady=7, sticky="ew")
                 self.entry_widget_pis = ttk.Entry(interface_frame_section_1, width=20, font=('Arial', 9))
-                self.entry_widget_pis.grid(row=3,column=1,padx=10,pady=7, sticky="ew")
+                self.entry_widget_pis.grid(row=4,column=1,padx=10,pady=7, sticky="ew")
                 self.entry_widget_pob = ttk.Entry(interface_frame_section_1, width=20, font=('Arial', 9))
-                self.entry_widget_pob.grid(row=4,column=1,padx=10,pady=7, sticky="ew")
+                self.entry_widget_pob.grid(row=5,column=1,padx=10,pady=7, sticky="ew")
                 self.entry_widget_p = ttk.Entry(interface_frame_section_1, width=20, font=('Arial', 9),foreground="green")
-                self.entry_widget_p.grid(row=5,column=1,padx=10,pady=7, sticky="ew")
+                self.entry_widget_p.grid(row=6,column=1,padx=10,pady=7, sticky="ew")
 
                 self.entry_widget_times = ttk.Entry(interface_frame_section_1, width=1, justify="center", font=('Arial', 9),foreground="pink")
-                self.entry_widget_times.grid(row=6,column=1,padx=70,pady=7, sticky="ew")
+                self.entry_widget_times.grid(row=7,column=1,padx=70,pady=7, sticky="ew")
                 
                 self.entry_widget_times.insert(0, "1") #This is the default text
 
             Entries()
 
             def Buttons():
-                self.text_widget = ttk.Button(interface_frame_section_1, text="Add",command="")
-                self.text_widget.grid(row=7,column=1,padx=10,pady=10, sticky="ew")
+                self.text_widget = ttk.Button(interface_frame_section_1, text="Add",command=self.add_product_excel)
+                self.text_widget.grid(row=8,column=1,padx=10,pady=10, sticky="ew")
                 self.text_widget = ttk.Button(interface_frame_section_1, text="Save Edit",command="")
-                self.text_widget.grid(row=7,column=0,padx=10,pady=10, sticky="ew")
+                self.text_widget.grid(row=8,column=0,padx=10,pady=10, sticky="ew")
 
                 self.button_widget_dsc = ttk.Button(interface_frame_section_1, text="Delete Selected Category",command="", width=20)
-                self.button_widget_dsc.grid(row=8,column=0,padx=10,pady=10, sticky="ew")
+                self.button_widget_dsc.grid(row=9,column=0,padx=10,pady=10, sticky="ew")
                 self.button_widget_dsp = ttk.Button(interface_frame_section_1, text="Delete Selected Product",command="", width=10)
-                self.button_widget_dsp.grid(row=8,column=1,padx=10,pady=10, sticky="ew")
+                self.button_widget_dsp.grid(row=9,column=1,padx=10,pady=10, sticky="ew")
 
             Buttons()
 
@@ -151,7 +164,33 @@ class Widgets (ttk.Frame):
 
         self.text_widget_addCategory = ttk.Button(interface_frame_section_2, text="Add Category",command=self.open_secondary_window_ac)
         self.text_widget_addCategory.grid(row=0,column=1,padx=20,pady=7, sticky="ew")
+    
 
+
+    def add_product_excel(self):
+
+        #error for not choosing the product:
+        if(self.combo1.get()==''):
+            messagebox.showerror("showerror", "Nothing to add") 
+            return
+
+        times = self.entry_widget_times.get()
+
+        #error for if the times value is not a number
+        try:
+            int(times)
+        except:
+            messagebox.showerror("showerror", "Invalid Entry: Times,type") 
+            return
+
+        if(int(times)>0 and int(times)<=100):
+            for x in range(int(times)):
+                read_write_excel.add_product_row(self.combo1.get(),self.combo1_category.get(),self.entry_widget_date.get(),self.entry_widget_ts.get(),self.entry_widget_pis.get(),self.entry_widget_pob.get(),self.entry_widget_p.get())
+                self.update_table()
+
+            messagebox.showinfo("showinfo", "You have added the Product\s!") 
+        else:
+            messagebox.showerror("showerror", "Invalid Entry: Times,range") 
 
     def open_secondary_window_ac(self):
         # Create secondary (or popup) window.
@@ -292,13 +331,13 @@ class Widgets (ttk.Frame):
         
         #if the prices are numbers
         try:
-            int(self.entry_widget_Priceinshop.get())
+            float(self.entry_widget_Priceinshop.get())
         except:
             messagebox.showinfo("showerror", "Your Price In Shop entry is not a number")
             return
         
         try:
-            int(self.entry_widget_Priceofbought.get())
+            float(self.entry_widget_Priceofbought.get())
         except:
             messagebox.showinfo("showerror", "Your Price Of Bought entry is not a number")
             return
@@ -315,7 +354,7 @@ class Widgets (ttk.Frame):
             cursor = conn.cursor()
 
 
-            profit = int(self.entry_widget_Priceinshop.get()) - int(self.entry_widget_Priceofbought.get())
+            profit = round(float(self.entry_widget_Priceinshop.get()) - float(self.entry_widget_Priceofbought.get()),3)
 
             values = (self.entry_widget_type.get(), self.entry_text_widget_Timeofsubscription.get(), self.entry_widget_Priceinshop.get(), self.entry_widget_Priceofbought.get(),str(profit))
 
@@ -363,10 +402,10 @@ class Widgets (ttk.Frame):
         self.table.column("Profit",width=120,anchor=tk.CENTER)
 
         # define headings
-        self.table.heading('Products', text='Products')
-        self.table.heading('Category', text='Category')
-        self.table.heading('Date', text='Date')
-        self.table.heading('Time of subscription', text='Time of subscription')
+        self.table.heading('Products', text='Products',command=lambda : self.sort_treeview(self.table, "Products", False))
+        self.table.heading('Category', text='Category',command=lambda : self.sort_treeview(self.table, "Category", False))
+        self.table.heading('Date', text='Date',command=lambda : self.sort_treeview(self.table, "Date", False))
+        self.table.heading('Time of subscription', text='Time of subscription',command=lambda : self.sort_treeview(self.table, "Time of subscription", False))
         self.table.heading('Price in shop', text='Price in shop')
         self.table.heading('Price of bought', text='Price of bought')
         self.table.heading('Profit', text='Profit')
@@ -374,10 +413,25 @@ class Widgets (ttk.Frame):
 
 
         self.update_table()
+        
+
+       
 
     
+
+    # Function to sort the Treeview by column
+    def sort_treeview(self,tree, col, descending):
+        data = [(tree.set(item, col), item) for item in tree.get_children('')]
+        data.sort(reverse=descending)
+        for index, (val, item) in enumerate(data):
+            tree.move(item, '', index)
+        tree.heading(col, command=lambda: self.sort_treeview(tree, col, not descending))
+
+
+
     def clear_table(self):
         self.table.delete(*self.table.get_children())
+
 
     def update_table(self):
         #delete all the rows of the table inorder to bypass a bug
@@ -386,7 +440,7 @@ class Widgets (ttk.Frame):
         #Insert the data from the excel to the table:
 
         #get the length of the products list
-        products_dic = read_excel.get_all_products()
+        products_dic = read_write_excel.get_all_products()
         products_length = len(products_dic['Products'])
 
 
@@ -401,7 +455,22 @@ class Widgets (ttk.Frame):
                 products_dic['Profit'][i]
             ))
 
+        self.calc_total_profit()
 
+    def calc_total_profit(self):
+        total = 0
+        for item in self.table.get_children():
+            value = self.table.set(item, 6)
+            if value is not None:
+                try:
+                    total += float(value)
+                except ValueError:
+                    print(f"Warning: Could not convert value '{value}' to float.")
+        self.total_profit_label.config(text = "Total Profit: "+str(round((total),3)))
+
+        
+        
+    
     def database_to_combo(self):
         try:
             self.combo_list.clear()
@@ -421,6 +490,9 @@ class Widgets (ttk.Frame):
             pass
 
         self.combo1['values'] = self.combo_list
+
+
+    
 
 
     def database_to_combo_category(self):
