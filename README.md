@@ -25,8 +25,9 @@ The program uses SQLite to store categories and product information. Each table'
 
 - **Adding a Category**: When you add a category, the program creates a table in SQLite with the name of the category provided by the user.
 - **Saving a Product**: When you save a product, it adds a row in the corresponding category table with the product's details (name of the product, time of subscription, price in shop, price bought, profit). The profit is automatically calculated.
-> You can add one word with no special characters, because its the title of a table
 - **Adding a Product**: When you add a product using the "Add" button, the program saves the information as a row in the Excel file. Then, it reads the information into the table, automatically sorts it into the analyzing tables, and calculates all the profits.
+> For the Category: you can add one word with no special characters, because its the title of a table!
+
 
 ### Analyzing Tables
 
