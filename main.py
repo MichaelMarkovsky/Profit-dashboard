@@ -263,7 +263,7 @@ class Widgets (ttk.Frame):
             messagebox.showinfo("showinfo", "You have added a category!") 
 
         except:
-            messagebox.showerror("showerror", "That category already exists") 
+            messagebox.showerror("showerror", "Error") 
 
 
     def open_secondary_window(self):
