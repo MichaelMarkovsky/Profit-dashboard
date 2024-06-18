@@ -11,11 +11,7 @@ from tkinter import messagebox
 
 from tkcalendar import Calendar, DateEntry
 
-
 import sv_ttk
-import threading
-from threading import Event
-
 
 #IMPORTS FOR EXTERNAL FUNCTIONS
 #create excel file:
