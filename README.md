@@ -17,14 +17,25 @@
 
 
 ## Overview
-When first runing the program , it checks if the sqlite(database) and excel files exist, if not then it creates them.
-It uses the sqlite for saving the categories and product information (the title of the table is the cartegory and the content is the products and their details:name of the product,time of subscription,price in shop,price of bought,profit)
 
-when you add a categoty, it creates a in the sqlite a table name with the category's name that the user provided.
+When first running the program, it checks if the SQLite database and Excel files exist. If not, it creates them.
 
-When you save a product, it adds a row in the table with the product's details (name of the product,time of subscription,price in shop,price of bought,profit) , but the profit in this window is calculated automaticly.
+The program uses SQLite to store categories and product information. Each table's title corresponds to a category, and the table's content includes the details of the products within that category (name of the product, time of subscription, price in shop, price bought, and profit).
 
-When you add a product to the with the add button , it saves the information as a row in the 
+### Categories and Products
+
+- **Adding a Category**: When you add a category, the program creates a table in SQLite with the name of the category provided by the user.
+- **Saving a Product**: When you save a product, it adds a row in the corresponding category table with the product's details (name of the product, time of subscription, price in shop, price bought, profit). The profit is automatically calculated.
+- **Adding a Product**: When you add a product using the "Add" button, the program saves the information as a row in the Excel file. Then, it reads the information into the table, automatically sorts it into the analyzing tables, and calculates all the profits.
+
+### Analyzing Tables
+
+The program features two analyzing tables:
+1. **Products and Profits**: This table has two columns (products and profits) and lists all products, summing up the profits for each. The table is sorted from the most profitable to the least profitable products.
+2. **Categories and Profits**: This table also has two columns (categories and profits) and lists all categories, summing up the profits for each. The table is sorted from the most profitable to the least profitable categories.
+
+These analyzing tables provide a clear overview of which products and categories generate the most profit, helping you make informed decisions.
+
 
 
 
@@ -32,13 +43,11 @@ When you add a product to the with the add button , it saves the information as 
 
 
 ## Installation
-#### 1. For webscraping:
-Download and install a specific selenuim version:
+#### 1. For Excel:
+Download and install a library for interaction with Excel:
 ```
-pip install selenium==4.9.0
+pip install openpyxl
 ```
-Download and extract *chromedriver-win64* and *chrome-win64* to the script's folder:
-https://googlechromelabs.github.io/chrome-for-testing/
 
 #### 2. For GUI:
 Download and install tkinter:
@@ -50,10 +59,25 @@ Download and install a custom version of tkinter(themed):
 ```
 pip install sv-ttk
 ```
+
+Download and install a PickADate widget for tkinter(themed):
+```
+pip install tkcalendar
+```
+#### 3. For EXE (Optional)
+I have encounterd an issue with exporting the project as a onefile exe format,
+with the the error being not finding the ussage of libraries.
+This will resolve the issue:
+```
+pip install Babel
+```
 #### Essentials:
 - main.py
 - read_write.excel.py
-- files_creation.py
+- files_creation.py , Creates:
+  - products.db
+  - ExcelData.xlsx
+  
 
 ## License
 [MIT License](LICENSE)
