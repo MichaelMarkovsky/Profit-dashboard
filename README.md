@@ -3,6 +3,7 @@
 
 ![pic1 copy](https://github.com/MichaelMarkovsky/Profit-dashboard/assets/133515749/0b878502-d6af-4c35-a8e0-b6608bfd3f41)
 
+![Excel screenshot](https://github.com/MichaelMarkovsky/Profit-dashboard/assets/133515749/85dafd47-6fee-413d-9dee-c3cfa6b4592a)
 
 
 ## Fetures
