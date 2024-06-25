@@ -1,5 +1,5 @@
 # Profit Dashboard
->A program in which you save the details of your products with their categories, add them to the table in which it saves to an excel , and in real time see your total profit and analize what product and category makes you the most money.
+>A program in which you save the details of your products with their categories, add them to the table in which it saves to an excel , and in real time see your total profit and analyse what product and category makes you the most money.
 
 ![pic1 copy](https://github.com/MichaelMarkovsky/Profit-dashboard/assets/133515749/0b878502-d6af-4c35-a8e0-b6608bfd3f41)
 
